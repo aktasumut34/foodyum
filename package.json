@@ -1,5 +1,5 @@
 {
-  "name": "foodyum",
+  "name": "foodyum-menu",
   "version": "0.0.1",
   "files": [
     "dist"
@@ -25,7 +25,10 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
+    "@headlessui/vue": "^1.6.1",
+    "@vueuse/core": "^8.4.2",
     "axios": "^0.27.2",
+    "pinia": "^2.0.14",
     "style-inject": "^0.3.0",
     "vue": "^3.2.25"
   },

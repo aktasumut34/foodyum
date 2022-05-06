@@ -10,9 +10,9 @@ export type Product = {
   created_at: string;
   updated_at: string;
   storage_img_url: string;
-  product_visibilities: any[];
-  product_addon_choices: any[];
-  product_types: any[];
+  product_visibilities: unknown[];
+  product_addon_choices: unknown[];
+  product_types: unknown[];
 };
 
 export type ProductCategory = {

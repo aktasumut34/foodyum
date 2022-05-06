@@ -12,6 +12,8 @@
         :category="category"
       ></MenuCategory>
     </div>
+
+    <Modal />
   </div>
 </template>
 
@@ -20,7 +22,10 @@
 // import { AxiosInstance } from "axios";
 // const api: AxiosInstance = inject("api")!;
 import MenuCategory from "./components/MenuCategory.vue";
+import Modal from "./components/Modal.vue";
 import { locationInfo, productMenu } from "./fakeData";
+import { useCart } from "./store/cart";
+const cart = useCart();
 </script>
 
 <style scoped></style>

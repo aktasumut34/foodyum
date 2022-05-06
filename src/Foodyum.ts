@@ -7,6 +7,7 @@ import styleInject from "style-inject";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { createPinia } from "pinia";
 
 type FoodyumConfig = {
   publicKey?: string;
@@ -40,6 +41,7 @@ export class Foodyum {
     });
     app.provide("api", api);
     app.component("fa", FontAwesomeIcon);
+    app.use(createPinia());
     app.mount(this.$element);
     styleInject(css);
   }
