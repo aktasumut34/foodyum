@@ -5,6 +5,7 @@ import { Product } from "../types/app";
 export const useCart = defineStore("cart", {
   state: () => {
     return {
+      // Reactive localStorage, magic!
       cart: useStorage("cart", [], undefined, {
         serializer: {
           read: (v: any) => (v ? JSON.parse(v) : null),

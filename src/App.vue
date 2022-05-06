@@ -21,11 +21,17 @@
 // import { inject } from "vue";
 // import { AxiosInstance } from "axios";
 // const api: AxiosInstance = inject("api")!;
+import { AxiosInstance } from "axios";
+import { inject } from "vue";
 import MenuCategory from "./components/MenuCategory.vue";
 import Modal from "./components/Modal.vue";
 import { locationInfo, productMenu } from "./fakeData";
 import { useCart } from "./store/cart";
 const cart = useCart();
+const api: AxiosInstance = inject("api");
+api.get("product-menu").then(({ data }) => {
+  locationInfo.data = data;
+});
 </script>
 
 <style scoped></style>

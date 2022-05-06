@@ -10,16 +10,16 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { createPinia } from "pinia";
 
 type FoodyumConfig = {
-  publicKey?: string;
+  apiKey?: string;
 };
 
 export class Foodyum {
   private $el = "#foodyum";
   private $element: HTMLElement | null;
-  private $publicKey = "";
+  private $apiKey = "";
   constructor(el?: string, config?: FoodyumConfig) {
     this.$el = el || this.$el;
-    this.$publicKey = config?.publicKey || this.$publicKey;
+    this.$apiKey = config?.apiKey || this.$apiKey;
     this.$element = document.querySelector(this.$el);
     if (this.$element) {
       this.init();
@@ -34,9 +34,9 @@ export class Foodyum {
     const app = createApp(App);
     library.add(faAdd);
     const api = axios.create({
-      baseURL: "http://foodyum-dev.fuelm.net",
-      headers: {
-        "X-Public-Key": this.$publicKey,
+      baseURL: "https://foodyum-dev.fuelm.net/api/external-services",
+      params: {
+        api_key: this.$apiKey,
       },
     });
     app.provide("api", api);
