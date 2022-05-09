@@ -1,12 +1,15 @@
 import { createApp } from "vue";
 import axios from "axios";
 import App from "./App.vue";
-// @ts-expect-error
 import css from "./style.css";
 import styleInject from "style-inject";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import {
+  faAdd,
+  faCartShopping,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { createPinia } from "pinia";
 
 type FoodyumConfig = {
@@ -32,7 +35,7 @@ export class Foodyum {
   private init(): void {
     if (!this.$element) return;
     const app = createApp(App);
-    library.add(faAdd);
+    library.add(faAdd, faCartShopping, faTrash);
     const api = axios.create({
       baseURL: "https://foodyum-dev.fuelm.net/api/external-services",
       params: {

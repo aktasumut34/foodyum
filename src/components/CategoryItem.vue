@@ -23,9 +23,8 @@ const modal = useModal();
 const props = defineProps<{
   item: Product;
 }>();
-const item = computed(() => props.item);
 const addToCart = () => {
-  modal.setProduct(item.value);
+  modal.setProduct(props.item);
   modal.open();
 };
 </script>

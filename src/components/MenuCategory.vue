@@ -17,11 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import CategoryItem from "./CategoryItem.vue";
 import { ProductCategory } from "../types/app";
-const props = defineProps<{
+defineProps<{
   category: ProductCategory;
 }>();
-const category = computed(() => props.category);
 </script>

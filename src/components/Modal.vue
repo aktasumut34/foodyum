@@ -45,10 +45,10 @@
               <div class="fy-mt-4">
                 <button
                   type="button"
-                  class="fy-inline-flex fy-justify-center fy-rounded-md fy-border fy-border-transparent fy-bg-blue-100 fy-px-4 fy-py-2 fy-text-sm fy-font-medium fy-text-blue-900 fy-hover:bg-blue-200 fy-focus:outline-none fy-focus-visible:ring-2 fy-focus-visible:ring-blue-500 fy-focus-visible:ring-offset-2"
+                  class="fy-inline-flex fy-justify-center fy-rounded-md fy-border fy-border-transparent fy-bg-green-100 fy-px-4 fy-py-2 fy-text-sm fy-font-medium fy-text-green-900 hover:fy-bg-green-200 focus:fy-outline-none focus-visible:fy-ring-2 focus-visible:fy-ring-green-500 focus-visible:fy-ring-offset-2"
                   @click="addToCart()"
                 >
-                  Got it, thanks!
+                  Add to cart
                 </button>
               </div>
             </DialogPanel>

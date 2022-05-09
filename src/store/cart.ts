@@ -14,6 +14,13 @@ export const useCart = defineStore("cart", {
       }),
     };
   },
+  getters: {
+    total: (state) => {
+      return state.cart
+        .reduce((acc, item) => acc + item.price * item.quantity, 0)
+        .toFixed(2);
+    },
+  },
   actions: {
     add(item: Product) {
       const cur = this.cart.find((i) => i.id === item.id);

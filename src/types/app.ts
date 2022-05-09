@@ -30,3 +30,41 @@ export type ProductCategory = {
   product_addon_choices: unknown[];
   products: Product[];
 };
+
+export type LocationInfo = {
+  id: number;
+  user_id: number;
+  name: string;
+  phone: string;
+  website: string;
+  country_code: string;
+  state: string;
+  city: string;
+  zipcode: string;
+  street: string;
+  address: string;
+  timezone: string;
+  latitude: string;
+  longitude: string;
+  api_key: string;
+  deleted_at: string;
+  created_at: string;
+  updated_at: string;
+  country: {
+    id: number;
+    code: string;
+    name: string;
+    created_at: string;
+    updated_at: string;
+  };
+  taxation_settings: {
+    id: number;
+    location_id: number;
+    sales_tax_type: number;
+    name: string;
+    delivery_fee: number;
+    currency_id: number;
+    created_at: string;
+    updated_at: string;
+  };
+};
