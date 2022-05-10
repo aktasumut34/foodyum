@@ -35,10 +35,9 @@
             v-if="cartStore.cart.length > 0"
             class="fy-relative fy-grid fy-gap-8 fy-bg-white fy-p-7"
           >
-            <a
+            <div
               v-for="item in cartStore.cart"
               :key="item.name"
-              :href="item.href"
               class="-fy-m-3 fy-flex fy-items-center fy-rounded-lg fy-p-2 fy-transition fy-gap-4 fy-duration-150 fy-ease-in-out fy-hover:bg-gray-50 fy-focus:outline-none fy-focus-visible:ring fy-focus-visible:ring-orange-500 fy-focus-visible:ring-opacity-50"
             >
               <div
@@ -56,7 +55,7 @@
               </div>
               <div class="fy-ml-auto fy-text-right">
                 <p class="fy-text-md fy-font-medium fy-text-slate-900">
-                  {{ item.quantity }} x ${{ item.price }}
+                  {{ item.quantity }} x ${{ item.price || 0 }}
                 </p>
                 <p class="fy-text-sm fy-text-slate-500">
                   ${{ (item.quantity * item.price).toFixed(2) }}
@@ -74,7 +73,7 @@
                   ></fa>
                 </button>
               </div>
-            </a>
+            </div>
           </div>
           <div class="fy-p-7 fy-bg-white" v-else>
             <p class="fy-text-center fy-text-slate-700 fy-text-2xl">

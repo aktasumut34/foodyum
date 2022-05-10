@@ -4,7 +4,7 @@ export type Product = {
   tax_category_id: number;
   name: string;
   description: string;
-  price: string;
+  price: number;
   order: number;
   img_url: string;
   created_at: string;

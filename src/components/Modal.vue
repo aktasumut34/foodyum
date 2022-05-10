@@ -33,13 +33,10 @@
                 as="h3"
                 class="fy-text-lg fy-font-medium fy-leading-6 fy-text-gray-900"
               >
-                Payment successful
+                {{ modal.product.name }}
               </DialogTitle>
               <div class="fy-mt-2">
-                <p class="fy-text-sm fy-text-gray-500">
-                  Your payment has been successfully submitted. We’ve sent you
-                  an email with all of the details of your order.
-                </p>
+                {{ modal.product.product_addon_choices }}
               </div>
 
               <div class="fy-mt-4">

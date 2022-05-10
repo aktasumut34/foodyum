@@ -14,13 +14,13 @@ export const useModal = defineStore("modal", {
     };
   },
   actions: {
-    open() {
+    open(): void {
       this.isOpen = true;
     },
-    close() {
+    close(): void {
       this.isOpen = false;
     },
-    setProduct(product: Product) {
+    setProduct(product: Product): void {
       this.product = product;
     },
   },

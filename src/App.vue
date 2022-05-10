@@ -27,7 +27,9 @@ const locationInfo: Ref<LocationInfo | null> = ref(null);
 onMounted(async () => {
   const api: AxiosInstance = inject("api")!;
 
-  const locationResponse = await api.get<{ data: LocationInfo }>("location");
+  const locationResponse = await api.get<{
+    data: LocationInfo;
+  }>("location");
   locationInfo.value = locationResponse.data.data;
 
   const menuResponse = await api.get<{
@@ -35,7 +37,6 @@ onMounted(async () => {
       product_categories: ProductCategory[];
     };
   }>("product-menu");
-
   productCategories.value = menuResponse.data.data.product_categories;
 
   isLoading.value = false;
