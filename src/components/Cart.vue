@@ -58,9 +58,7 @@
                 <p v-if="item.product_choices.length">
                   <div v-for="c in item.product_choices">
                     {{ c.addon.name }}: {{
-                      c.choice.filter((c) => c.is_selected).reduce((acc, x) => {
-                        return acc + x.name + ','
-                      }, "")
+                      c.choice.filter((c) => c.is_selected).map((x) => x.name).join(', ')
                     }}
                   </div>
                 </p>
