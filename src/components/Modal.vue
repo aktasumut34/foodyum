@@ -251,7 +251,7 @@ const refreshAddons = () => {
   });
 };
 const addToCart = () => {
-  const checkChecked = cart.add(product.value, checked.value);
+  const checkChecked = cart.add(product.value, selected.value, checked.value);
   if (!checkChecked.success)
     Swal.fire({
       icon: "error",

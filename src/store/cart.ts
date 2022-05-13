@@ -4,6 +4,7 @@ import { Product, ProductAddon, ProductChoice } from "../types/app";
 import _ from "lodash";
 interface ICartItem extends Product {
   quantity?: number;
+  type?: number | null;
   product_choices?: { addon: ProductAddon; choice: ProductChoice[] }[];
 }
 
@@ -31,6 +32,7 @@ export const useCart = defineStore("cart", {
   actions: {
     add(
       item: Product,
+      type: number | null,
       checkedList: { addon: ProductAddon; choice: ProductChoice[] }[]
     ): { message: string; success: boolean } {
       let status: { message: string; success: boolean } = {
@@ -54,13 +56,16 @@ export const useCart = defineStore("cart", {
       if (status.success) {
         const cur = this.cart.find(
           (i: ICartItem) =>
-            i.id === item.id && _.isEqual(i.product_choices, checkedList)
+            i.id === item.id &&
+            _.isEqual(i.product_choices, checkedList) &&
+            i.type === type
         );
         cur
           ? cur.quantity++
           : this.cart.push({
               ...item,
               quantity: 1,
+              type,
               product_choices: checkedList,
             });
       }

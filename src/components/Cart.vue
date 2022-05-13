@@ -52,6 +52,18 @@
                 <p class="fy-text-sm fy-text-slate-500">
                   {{ item.description }}
                 </p>
+                <p v-if="item.type >= 0 && item.product_types[item.type]">
+                  {{ item.product_types[item.type].name }}
+                </p>
+                <p v-if="item.product_choices.length">
+                  <div v-for="c in item.product_choices">
+                    {{ c.addon.name }}: {{
+                      c.choice.filter((c) => c.is_selected).reduce((acc, x) => {
+                        return acc + x.name + ','
+                      }, "")
+                    }}
+                  </div>
+                </p>
               </div>
               <div class="fy-ml-auto fy-text-right">
                 <p class="fy-text-md fy-font-medium fy-text-slate-900">
