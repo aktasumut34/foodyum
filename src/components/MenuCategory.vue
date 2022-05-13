@@ -11,6 +11,7 @@
       <CategoryItem
         v-for="item in category.products"
         :item="item"
+        :category="category"
       ></CategoryItem>
     </div>
   </div>

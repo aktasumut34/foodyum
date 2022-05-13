@@ -1,3 +1,52 @@
+export type ProductChoice = {
+  id: number;
+  product_addon_id: number;
+  name: string;
+  price: number;
+  pre_select: number;
+  is_selected?: boolean;
+  order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProductAddon = {
+  id: number;
+  location_id: number;
+  name: string;
+  type: number;
+  allow_adding_same: number;
+  force_min: number;
+  force_max: number;
+  order: number;
+  created_at: string;
+  updated_at: string;
+  product_choices: ProductChoice[];
+};
+
+export type ProductAddonChoice = {
+  id: number;
+  product_addon_id: number;
+  order: number;
+  contextable_type: string;
+  contextable_id: number;
+  created_at: string;
+  updated_at: string;
+  product_addon: ProductAddon;
+};
+
+export type ProductType = {
+  id: number;
+  product_id: number;
+  name: string;
+  price: number;
+  is_selected: number;
+  order: number;
+  created_at: string;
+  updated_at: string;
+  product_addon_choices: ProductAddonChoice[];
+};
+
 export type Product = {
   id: number;
   product_category_id: number;
@@ -11,8 +60,8 @@ export type Product = {
   updated_at: string;
   storage_img_url: string;
   product_visibilities: unknown[];
-  product_addon_choices: unknown[];
-  product_types: unknown[];
+  product_addon_choices: ProductAddonChoice[];
+  product_types: ProductType[];
 };
 
 export type ProductCategory = {
@@ -27,7 +76,7 @@ export type ProductCategory = {
   updated_at: string;
   storage_img_url: string;
   product_visibilities: unknown[];
-  product_addon_choices: unknown[];
+  product_addon_choices: ProductAddonChoice[];
   products: Product[];
 };
 

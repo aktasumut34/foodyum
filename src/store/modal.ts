@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
-import { Product } from "../types/app";
+import { Product, ProductCategory } from "../types/app";
 
 interface IModalState {
   product: Product | null;
+  category: ProductCategory | null;
   isOpen: boolean;
 }
 
@@ -11,6 +12,7 @@ export const useModal = defineStore("modal", {
     return {
       isOpen: false,
       product: null,
+      category: null,
     };
   },
   actions: {
@@ -22,6 +24,9 @@ export const useModal = defineStore("modal", {
     },
     setProduct(product: Product): void {
       this.product = product;
+    },
+    setCategory(category: ProductCategory): void {
+      this.category = category;
     },
   },
 });

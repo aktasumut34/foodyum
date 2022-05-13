@@ -21,9 +21,11 @@ import MenuCategory from "./components/MenuCategory.vue";
 import Modal from "./components/Modal.vue";
 import Header from "./components/Header.vue";
 import { ProductCategory, LocationInfo } from "./types/app";
+
 const isLoading = ref(true);
 const productCategories: Ref<ProductCategory[]> = ref([]);
 const locationInfo: Ref<LocationInfo | null> = ref(null);
+
 onMounted(async () => {
   const api: AxiosInstance = inject("api")!;
 
