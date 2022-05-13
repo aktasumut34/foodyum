@@ -34,8 +34,12 @@
                 class="fy-text-xl fy-font-medium fy-leading-6 fy-text-slate-900"
               >
                 {{ product.name }}
+                <span
+                  class="fy-block fy-fon-light fy-leading-4 fy-text-sm fy-text-slate-600"
+                  >{{ product.description }}</span
+                >
               </DialogTitle>
-              <div class="fy-my-8 fy-flex fy-flex-col fy-gap-4">
+              <div class="fy-my-4 fy-flex fy-flex-col fy-gap-4">
                 <!-- Product Type -->
                 <div v-if="product.product_types.length">
                   <RadioGroup v-model="selected">
@@ -118,42 +122,54 @@
                     </div>
                   </RadioGroup>
                 </div>
-                <div class="fy-flex fy-flex-col fy-gap-6">
-                  <div
-                    class="fy-flex fy-flex-col fy-gap-1"
-                    v-for="s in selectable"
+                <div class="fy-flex fy-flex-col">
+                  <span class="fy-text-slate-700 fy-text-lg"
+                    >Product Addons</span
                   >
-                    <span class="fy-text-semibold fy-text-xl">{{
-                      s.name
-                    }}</span>
-                    <div class="fy-flex fy-gap-8 fy-flex-wrap">
-                      <SwitchGroup v-for="choice in s.product_choices">
-                        <div
-                          class="fy-flex fy-gap-2 fy-items-center fy-justify-center"
-                        >
-                          <Switch
-                            v-model="choice.is_selected"
-                            :class="
-                              choice.is_selected
-                                ? 'fy-bg-teal-900'
-                                : 'fy-bg-teal-700'
-                            "
-                            class="fy-relative fy-inline-flex fy-h-[20px] fy-w-[40px] fy-shrink-0 fy-cursor-pointer fy-rounded-full fy-border-2 fy-border-transparent fy-transition-colors fy-duration-200 fy-ease-in-out focus:fy-outline-none focus-visible:fy-ring-2 focus-visible:fy-ring-white focus-visible:fy-ring-opacity-75"
+                  <div class="fy-flex fy-gap-2 fy-flex-col">
+                    <div
+                      class="fy-flex fy-flex-col fy-gap-1"
+                      v-for="s in selectable"
+                    >
+                      <span class="fy-text-semibold fy-text-sm">{{
+                        s.name
+                      }}</span>
+                      <div class="fy-flex fy-gap-4 fy-flex-wrap">
+                        <SwitchGroup v-for="choice in s.product_choices">
+                          <div
+                            class="fy-flex fy-gap-1 fy-items-center fy-justify-center"
                           >
-                            <span
-                              aria-hidden="true"
+                            <Switch
+                              v-model="choice.is_selected"
                               :class="
                                 choice.is_selected
-                                  ? 'fy-translate-x-5'
-                                  : 'fy-translate-x-0'
+                                  ? 'fy-bg-green-700 fy-bg-opacity-75'
+                                  : 'fy-bg-slate-100'
                               "
-                              class="fy-pointer-events-none fy-inline-block fy-h-[16px] fy-w-[16px] fy-transform fy-rounded-full fy-bg-white fy-shadow-lg fy-ring-0 fy-transition fy-duration-200 fy-ease-in-out"
-                          /></Switch>
-                          <SwitchLabel class="fy-text-slate-700 fy-text-lg">
-                            {{ choice.name }}
-                          </SwitchLabel>
-                        </div>
-                      </SwitchGroup>
+                              class="fy-h-5 fy-w-5 fy-flex fy-items-center fy-justify-center fy-border fy-border-green-700 focus:fy-outline-none fy-border-opacity-75"
+                            >
+                              <svg
+                                v-if="choice.is_selected"
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="fy-h-4 fy-w-4 fy-text-white"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M5 13l4 4L19 7"
+                                />
+                              </svg>
+                            </Switch>
+                            <SwitchLabel class="fy-text-slate-700 fy-text-xs">
+                              {{ choice.name }}
+                            </SwitchLabel>
+                          </div>
+                        </SwitchGroup>
+                      </div>
                     </div>
                   </div>
                 </div>
