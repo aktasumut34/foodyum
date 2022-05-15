@@ -2,7 +2,7 @@
   <Popover v-slot="{ open }" class="fy-relative">
     <PopoverButton
       class="fy-relative fy-p-3 fy-rounded-full fy-transition-colors fy-cursor-pointer fy-group"
-      :class="open ? 'fy-bg-slate-300' : ''"
+      :class="open ? 'fy-bg-slate-100' : ''"
     >
       <fa
         icon="cart-shopping"

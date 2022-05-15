@@ -5,12 +5,14 @@
     </div>
     <div class="fy-flex fy-items-center fy-gap-6">
       <Cart />
+      <User />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { LocationInfo } from "../types/app";
 import Cart from "./Cart.vue";
+import User from "./User.vue";
 
 defineProps<{
   locationInfo: LocationInfo;

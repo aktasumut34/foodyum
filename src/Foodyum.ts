@@ -10,6 +10,8 @@ import {
   faAdd,
   faCartShopping,
   faTrash,
+  faUser,
+  faUserLock,
 } from "@fortawesome/free-solid-svg-icons";
 import { createPinia } from "pinia";
 
@@ -36,7 +38,7 @@ export class Foodyum {
   private init(): void {
     if (!this.$element) return;
     const app = createApp(App);
-    library.add(faAdd, faCartShopping, faTrash);
+    library.add(faAdd, faCartShopping, faTrash, faUser, faUserLock);
     const api = axios.create({
       baseURL: "https://foodyum-dev.fuelm.net/api/external-services",
       params: {
