@@ -55,7 +55,7 @@
                 <p v-if="item.type >= 0 && item.product_types[item.type]">
                   {{ item.product_types[item.type].name }}
                 </p>
-                <p v-if="item.product_choices.length">
+                <p v-if="item.product_choices && item.product_choices.length">
                   <div v-for="c in item.product_choices">
                     {{ c.addon.name }}: {{
                       c.choice.filter((c) => c.is_selected).map((x) => x.name).join(', ')

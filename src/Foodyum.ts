@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import axios from "axios";
 import App from "./App.vue";
 import css from "./style.css";
+// @ts-expect-error
 import styleInject from "style-inject";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -43,6 +44,7 @@ export class Foodyum {
       },
     });
     app.provide("api", api);
+    app.provide("apiKey", this.$apiKey);
     app.component("fa", FontAwesomeIcon);
     app.use(createPinia());
     app.mount(this.$element);

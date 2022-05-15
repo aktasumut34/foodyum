@@ -1,4 +1,5 @@
 <template>
+  <User></User>
   <div v-if="isLoading">Loading..</div>
   <div class="fy-flex fy-flex-col fy-py-4 fy-px-8 fy-gap-8" v-else>
     <Header :location-info="locationInfo" />
@@ -9,7 +10,6 @@
         :category="category"
       ></MenuCategory>
     </div>
-
     <Modal />
   </div>
 </template>
@@ -21,6 +21,7 @@ import MenuCategory from "./components/MenuCategory.vue";
 import Modal from "./components/Modal.vue";
 import Header from "./components/Header.vue";
 import { ProductCategory, LocationInfo } from "./types/app";
+import User from "./components/User.vue";
 
 const isLoading = ref(true);
 const productCategories: Ref<ProductCategory[]> = ref([]);
