@@ -4,16 +4,12 @@
       <PopoverButton
         class="fy-relative fy-p-3 fy-rounded-sm fy-transition-colors fy-cursor-pointer fy-group"
         :class="open ? 'fy-bg-slate-100' : ''"
-        v-if="userStore.user.isLoggedIn"
       >
-        <span class="text-2xl">{{ userStore.user.user.first_name }}</span>
-      </PopoverButton>
-      <PopoverButton
-        class="fy-relative fy-p-3 fy-rounded-sm fy-transition-colors fy-cursor-pointer fy-group fy-flex fy-gap-2"
-        :class="open ? 'fy-bg-slate-100' : ''"
-        v-else
-      >
-        <span class="text-2xl">Login / Register</span>
+        <span v-if="userStore.user.isLoggedIn" class="text-2xl">{{
+          userStore.user.user.first_name
+        }}</span>
+
+        <span class="text-2xl" v-else>Login / Register</span>
       </PopoverButton>
       <transition
         enter-active-class="fy-transition fy-duration-200 fy-ease-out"
@@ -25,21 +21,9 @@
       >
         <PopoverPanel
           class="fy-absolute -fy-right-5 fy-py-2 fy-z-10 fy-w-screen fy-px-4 sm:fy-px-0 lg:fy-max-w-md"
-          v-if="userStore.user.isLoggedIn"
         >
-          <div
-            class="fy-overflow-hidden fy-rounded-lg fy-shadow-2xl fy-drop-shadow-2xl fy-ring-1 fy-ring-black fy-ring-opacity-5"
-          >
-            <div class="fy-relative fy-grid fy-gap-8 fy-bg-white fy-p-7">
-              Selam
-            </div>
-          </div>
-        </PopoverPanel>
-        <PopoverPanel
-          class="fy-absolute -fy-right-5 fy-py-2 fy-z-10 fy-w-screen fy-px-4 sm:fy-px-0 lg:fy-max-w-md"
-          v-else
-        >
-          <Auth />
+          <Details v-if="userStore.user.isLoggedIn" />
+          <Auth v-else />
         </PopoverPanel>
       </transition>
     </Popover>
@@ -51,6 +35,7 @@ import { ref } from "vue";
 import { useUser } from "../store/user";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import Auth from "./Auth/Auth.vue";
+import Details from "./Auth/Details.vue";
 const userStore = useUser();
 const email = ref("");
 const password = ref("");
