@@ -2,14 +2,10 @@
   <div>
     <Popover v-slot="{ open }" class="fy-relative">
       <PopoverButton
-        class="fy-relative fy-p-3 fy-rounded-sm fy-transition-colors fy-cursor-pointer fy-group"
+        class="fy-relative fy-p-3 fy-rounded-md fy-transition-colors fy-cursor-pointer fy-group"
         :class="open ? 'fy-bg-slate-100' : ''"
       >
-        <span v-if="userStore.user.isLoggedIn" class="text-2xl">{{
-          userStore.user.user.first_name
-        }}</span>
-
-        <span class="text-2xl" v-else>Login / Register</span>
+        <span class="text-2xl">{{ name }}</span>
       </PopoverButton>
       <transition
         enter-active-class="fy-transition fy-duration-200 fy-ease-out"
@@ -31,15 +27,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
 import { useUser } from "../store/user";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import Auth from "./Auth/Auth.vue";
 import Details from "./Auth/Details.vue";
+import { computed } from "vue";
 const userStore = useUser();
-const email = ref("");
-const password = ref("");
-const login = () => {
-  userStore.login({ email: email.value, password: password.value });
-};
+const name = computed(() => {
+  return userStore.user.isLoggedIn && userStore.user.user
+    ? userStore.user.user.first_name + " " + userStore.user.user.last_name
+    : "Login / Register";
+});
 </script>

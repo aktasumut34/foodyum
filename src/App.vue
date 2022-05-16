@@ -15,30 +15,35 @@
 
 <script setup lang="ts">
 import { AxiosInstance } from "axios";
-import { inject, ref, onMounted, Ref } from "vue";
+import { inject, ref, onMounted, Ref, computed } from "vue";
 import MenuCategory from "./components/MenuCategory.vue";
 import Modal from "./components/Modal.vue";
 import Header from "./components/Header.vue";
-import { ProductCategory, LocationInfo } from "./types/app";
+import { ProductCategory, LocationInfo, TenantInfo } from "./types/app";
+import { useLocation } from "./store/location";
+import { useCategories } from "./store/categories";
 
 const isLoading = ref(true);
-const productCategories: Ref<ProductCategory[]> = ref([]);
-const locationInfo: Ref<LocationInfo | null> = ref(null);
-
+const locationStore = useLocation();
+const categoriesStore = useCategories();
+const locationInfo = computed(() => locationStore.location);
+const productCategories = computed(() => categoriesStore.product_categories);
 onMounted(async () => {
   const api: AxiosInstance = inject("api")!;
-
   const locationResponse = await api.get<{
-    data: LocationInfo;
+    data: {
+      location: LocationInfo;
+      tenant: TenantInfo;
+    };
   }>("location");
-  locationInfo.value = locationResponse.data.data;
-
+  locationStore.setLocation(locationResponse.data.data.location);
+  locationStore.setTenant(locationResponse.data.data.tenant);
   const menuResponse = await api.get<{
     data: {
       product_categories: ProductCategory[];
     };
   }>("product-menu");
-  productCategories.value = menuResponse.data.data.product_categories;
+  categoriesStore.setCategories(menuResponse.data.data.product_categories);
 
   isLoading.value = false;
 });

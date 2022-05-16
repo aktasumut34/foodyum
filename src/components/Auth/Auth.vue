@@ -11,6 +11,8 @@ import { computed } from "@vue/reactivity";
 const userStore = useUser();
 const login = computed(() => userStore.pageLogin);
 const change = (val: boolean) => {
+  userStore.authErrorLogin = "";
+  userStore.authErrorRegister = "";
   userStore.pageLogin = val;
 };
 </script>

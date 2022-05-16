@@ -117,3 +117,14 @@ export type LocationInfo = {
     updated_at: string;
   };
 };
+
+export type TenantInfo = {
+  id: string;
+  company: string;
+  created_at: string;
+  updated_at: string;
+  email: string;
+  last_name: string;
+  first_name: string;
+  central_user_id: number;
+};
