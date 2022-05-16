@@ -261,13 +261,17 @@ const refreshAddons = () => {
   selectable.value.forEach((s) => {
     s.product_choices.forEach((c) => {
       const x = checked.value.find((a) => a.addon.id === s.id);
-      if (x) x.choice.push(c);
+      if (x) x.choice = [...x.choice, c];
       else checked.value.push({ addon: s, choice: [c] });
     });
   });
 };
 const addToCart = () => {
-  const checkChecked = cart.add(product.value, selected.value, checked.value);
+  const checkChecked = cart.add(
+    product.value,
+    product.value.product_types[selected.value]?.id,
+    checked.value
+  );
   if (!checkChecked.success)
     Swal.fire({
       icon: "error",

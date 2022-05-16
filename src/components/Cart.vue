@@ -52,15 +52,16 @@
                 <p class="fy-text-sm fy-text-slate-500">
                   {{ item.description }}
                 </p>
-                <p v-if="item.type >= 0 && item.product_types[item.type]">
-                  {{ item.product_types[item.type].name }}
+                <p v-if="item.type >= 0">
+                  Size: {{ item.product_types.find(t => t.id === item.type).name }}
                 </p>
                 <p v-if="item.product_choices && item.product_choices.length">
                   <div v-for="c in item.product_choices">
+                  <div v-if="c.choice.filter((c) => c.is_selected).map((x) => x.name).length > 0">
                     {{ c.addon.name }}: {{
-                      c.choice.filter((c) => c.is_selected).map((x) => x.name).join(', ')
+                      c.choice.map((x) => x.name).join(', ')
                     }}
-                  </div>
+                  </div></div>
                 </p>
               </div>
               <div class="fy-ml-auto fy-text-right">
@@ -104,7 +105,14 @@
                 $ {{ cartStore.total }}
               </span>
             </div>
-            <div>
+            <div class="fy-flex fy-gap-2">
+              <button
+                v-if="userStore.user.isLoggedIn"
+                @click="orderNow"
+                class="fy-bg-green-500 fy-text-white fy-rounded-md fy-px-4 fy-py-2 fy-duration-150 hover:fy-bg-green-700 active:fy-bg-green-800 fy-transition-colors"
+              >
+                Order Now
+              </button>
               <button
                 @click="cartStore.clear"
                 class="fy-bg-red-500 fy-text-white fy-rounded-md fy-px-4 fy-py-2 fy-duration-150 hover:fy-bg-red-700 active:fy-bg-red-800 fy-transition-colors"
@@ -121,5 +129,11 @@
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { useCart } from "../store/cart";
+import { useUser } from "../store/user";
 const cartStore = useCart();
+const userStore = useUser();
+const orderNow = () => {
+  console.log(1)
+  cartStore.orderNow();
+};
 </script>

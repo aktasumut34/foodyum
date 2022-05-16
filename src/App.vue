@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { AxiosInstance } from "axios";
-import { inject, ref, onMounted, Ref, computed } from "vue";
+import { inject, ref, onMounted, computed } from "vue";
 import MenuCategory from "./components/MenuCategory.vue";
 import Modal from "./components/Modal.vue";
 import Header from "./components/Header.vue";

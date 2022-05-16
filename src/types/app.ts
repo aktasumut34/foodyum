@@ -4,7 +4,7 @@ export type ProductChoice = {
   name: string;
   price: number;
   pre_select: number;
-  is_selected?: boolean;
+  is_selected?: any;
   order: number;
   created_at: string;
   updated_at: string;
