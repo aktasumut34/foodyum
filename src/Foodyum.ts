@@ -22,6 +22,7 @@ export class Foodyum {
   private $el = "#foodyum";
   private $element: HTMLElement | null;
   private $apiKey = "";
+  public $app = createApp(App);
   constructor(el?: string, config?: FoodyumConfig) {
     this.$el = el || this.$el;
     this.$apiKey = config?.apiKey || this.$apiKey;
@@ -36,7 +37,6 @@ export class Foodyum {
   }
   private init(): void {
     if (!this.$element) return;
-    const app = createApp(App);
     library.add(faAdd, faCartShopping, faTrash, faSpinner);
     const api = axios.create({
       baseURL: "https://foodyum-dev.fuelm.net/api/external-services",
@@ -44,11 +44,15 @@ export class Foodyum {
         api_key: this.$apiKey,
       },
     });
-    app.provide("api", api);
-    app.provide("apiKey", this.$apiKey);
-    app.component("fa", FontAwesomeIcon);
-    app.use(createPinia());
-    app.mount(this.$element);
+    this.$app.provide("api", api);
+    this.$app.provide("apiKey", this.$apiKey);
+    this.$app.component("fa", FontAwesomeIcon);
+    this.$app.use(createPinia());
+    this.$app.mount(this.$element);
     styleInject(css);
+  }
+  public removeApp(): void {
+    if (!this.$element) return;
+    this.$app.unmount();
   }
 }
