@@ -4,11 +4,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
 import Login from "./Login.vue";
 import Register from "./Register.vue";
-const login = ref(false);
+import { useUser } from "../../store/user";
+import { computed } from "@vue/reactivity";
+const userStore = useUser();
+const login = computed(() => userStore.pageLogin);
 const change = (val: boolean) => {
-  login.value = val;
+  userStore.pageLogin = val;
 };
 </script>

@@ -12,7 +12,12 @@ interface IUser {
 }
 
 export const useUser = defineStore("user", {
-  state: (): { user: RemovableRef<IUser> } => {
+  state: (): {
+    user: RemovableRef<IUser>;
+    authErrorLogin: string;
+    authErrorRegister: string;
+    pageLogin: boolean;
+  } => {
     return {
       user: useStorage<IUser>("user", {}, localStorage, {
         serializer: {
@@ -20,15 +25,30 @@ export const useUser = defineStore("user", {
           write: (v: any) => JSON.stringify(v),
         },
       }),
+      authErrorLogin: "",
+      authErrorRegister: "",
+      pageLogin: true,
     };
   },
   actions: {
     async login({ email, password }: { email: string; password: string }) {
-      const response = await api.post("/api/core/user/auth/login", {
-        email,
-        password,
-      });
-      console.log(response);
+      try {
+        const response = await api.post("/api/core/user/auth/login", {
+          email,
+          password,
+        });
+        if (response.status === 200) {
+          const { data } = response;
+          this.user.set({
+            token: data.token,
+            user: data.user,
+            isLoggedIn: true,
+          });
+          return true;
+        }
+      } catch (e) {
+        this.authErrorLogin = "Invalid email or password";
+      }
     },
     async register({
       email,
