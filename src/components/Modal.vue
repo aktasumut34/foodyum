@@ -137,7 +137,7 @@
                       <div class="fy-flex fy-gap-4 fy-flex-wrap">
                         <SwitchGroup v-for="choice in s.product_choices">
                           <div
-                            class="fy-flex fy-gap-1 fy-items-center fy-justify-center"
+                            class="fy-flex fy-gap-2 fy-items-center fy-justify-center"
                           >
                             <Switch
                               v-model="choice.is_selected"
@@ -164,8 +164,16 @@
                                 />
                               </svg>
                             </Switch>
-                            <SwitchLabel class="fy-text-slate-700 fy-text-xs">
-                              {{ choice.name }}
+                            <SwitchLabel class="fy-flex fy-flex-col">
+                              <span class="fy-text-slate-700 fy-text-xs">{{
+                                choice.name
+                              }}</span>
+                              <span
+                                v-if="choice.price > 0"
+                                class="fy-text-gray-500 fy-text-[0.75rem]"
+                              >
+                                ${{ Number(choice.price).toFixed(2) }}</span
+                              >
                             </SwitchLabel>
                           </div>
                         </SwitchGroup>
@@ -181,7 +189,7 @@
                   class="fy-inline-flex fy-justify-center fy-rounded-md fy-border fy-border-transparent fy-bg-green-100 fy-px-4 fy-py-2 fy-text-sm fy-font-medium fy-text-green-900 hover:fy-bg-green-200 active:fy-bg-green-300 focus:fy-outline-none fy-transition-colors"
                   @click="addToCart()"
                 >
-                  Add to cart
+                  Add to cart ${{ total.toFixed(2) }}
                 </button>
               </div>
             </DialogPanel>
@@ -270,7 +278,8 @@ const addToCart = () => {
   const checkChecked = cart.add(
     product.value,
     product.value.product_types[selected.value]?.id,
-    checked.value
+    checked.value,
+    total.value
   );
   if (!checkChecked.success)
     Swal.fire({
@@ -280,4 +289,20 @@ const addToCart = () => {
     });
   else modal.close();
 };
+const total = computed(() => {
+  let totalAddons = 0;
+  checked.value.forEach((c) => {
+    c.choice.forEach((ch) => {
+      if (ch.is_selected) totalAddons += Number(ch.price);
+    });
+  });
+  if (
+    product.value.product_types.length &&
+    product.value.product_types[selected.value]
+  ) {
+    return (
+      Number(product.value.product_types[selected.value].price) + totalAddons
+    );
+  } else return Number(product.value.price) + totalAddons;
+});
 </script>

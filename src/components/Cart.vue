@@ -26,7 +26,7 @@
       leave-to-class="fy-translate-y-1 fy-opacity-0"
     >
       <PopoverPanel
-        class="fy-absolute -fy-right-5 fy-py-2 fy-z-10 fy-w-screen fy-max-w-lg fy-px-4 sm:fy-px-0 lg:fy-max-w-xl"
+        class="fy-absolute -fy-right-5 fy-py-2 fy-z-10 fy-w-screen fy-max-w-lg fy-px-4 sm:fy-px-0 lg:fy-max-w-2xl"
       >
         <div
           class="fy-overflow-hidden fy-rounded-lg fy-shadow-2xl fy-drop-shadow-2xl fy-ring-1 fy-ring-black fy-ring-opacity-5"
@@ -66,10 +66,10 @@
               </div>
               <div class="fy-ml-auto fy-text-right">
                 <p class="fy-text-md fy-font-medium fy-text-slate-900">
-                  {{ item.quantity }} x ${{ item.price || 0 }}
+                  {{ item.quantity }} x ${{ item.totalPriceCalculated.toFixed(2) || 0 }}
                 </p>
                 <p class="fy-text-sm fy-text-slate-500">
-                  ${{ (item.quantity * item.price).toFixed(2) }}
+                  ${{ (item.quantity * item.totalPriceCalculated).toFixed(2) }}
                 </p>
               </div>
               <div>

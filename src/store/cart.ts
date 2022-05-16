@@ -5,11 +5,13 @@ import _ from "lodash";
 import axios from "axios";
 import { useUser } from "./user";
 import { useLocation } from "./location";
+
 interface ICartItem extends Product {
   quantity?: number;
   type?: number | null;
   product_choices?: { addon: ProductAddon; choice: ProductChoice[] }[];
   cart_to_send_index: number;
+  totalPriceCalculated?: number;
 }
 
 interface ICartToSend {
@@ -48,7 +50,8 @@ export const useCart = defineStore("cart", {
     total: (state): string => {
       return state.cart
         .reduce(
-          (acc: number, item: ICartItem) => acc + item.price * item.quantity,
+          (acc: number, item: ICartItem) =>
+            acc + item.totalPriceCalculated * item.quantity,
           0
         )
         .toFixed(2);
@@ -58,7 +61,8 @@ export const useCart = defineStore("cart", {
     add(
       item: Product,
       type: number | null,
-      checkedList: { addon: ProductAddon; choice: ProductChoice[] }[]
+      checkedList: { addon: ProductAddon; choice: ProductChoice[] }[],
+      total: number
     ): { message: string; success: boolean } {
       let status: { message: string; success: boolean } = {
         message: "",
@@ -117,6 +121,7 @@ export const useCart = defineStore("cart", {
             type,
             product_choices: checkedList2,
             cart_to_send_index: finalIndex - 1,
+            totalPriceCalculated: total,
           });
         }
       }
