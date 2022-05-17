@@ -135,8 +135,7 @@ const userStore = useUser();
 const orderModalStore = useOrderModal();
 const orderNow = () => {
   if(userStore.user.isLoggedIn) {
-    
-    orderModalStore.open();console.log(1);
+    orderModalStore.open();
   } else {
     userStore.loginButton.el.click();
   }

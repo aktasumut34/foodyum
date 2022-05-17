@@ -7,7 +7,7 @@ interface IModalState {
   isOpen: boolean;
 }
 
-export const useProductModal = defineStore("modal", {
+export const useProductModal = defineStore("productModal", {
   state: (): IModalState => {
     return {
       isOpen: false,

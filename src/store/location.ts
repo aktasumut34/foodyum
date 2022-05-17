@@ -1,9 +1,14 @@
 import { defineStore } from "pinia";
-import { LocationInfo, TenantInfo } from "../types/app";
-
+import { IDeliveryMethod, LocationInfo, TenantInfo } from "../types/app";
+import axios from "axios";
+import { useUser } from "./user";
+const api = axios.create({
+  baseURL: "https://foodyum-dev.fuelm.net/",
+});
 interface ILocationState {
   location: LocationInfo | null;
   tenant: TenantInfo | null;
+  config?: IDeliveryMethod[];
 }
 
 export const useLocation = defineStore("location", {
@@ -11,6 +16,7 @@ export const useLocation = defineStore("location", {
     return {
       location: null,
       tenant: null,
+      config: null,
     };
   },
   actions: {
@@ -19,6 +25,26 @@ export const useLocation = defineStore("location", {
     },
     setTenant(payload: TenantInfo): void {
       this.tenant = payload;
+    },
+    setConfig(payload: IDeliveryMethod): void {
+      this.config = payload;
+    },
+    async getConfig() {
+      try {
+        const userStore = useUser();
+        const { data } = await api.get("/api/user/location-service-configs", {
+          params: {
+            location_id: this.location.id,
+          },
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${userStore.user.token}`,
+          },
+        });
+        this.setConfig(data.data);
+      } catch (e) {
+        console.log("FOODYUM ERROR: " + e);
+      }
     },
   },
 });

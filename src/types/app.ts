@@ -128,3 +128,110 @@ export type TenantInfo = {
   first_name: string;
   central_user_id: number;
 };
+
+export type UserData = Record<string, any> | null;
+export interface IDeliveryZone {
+  id: number;
+  location_id: number;
+  name: string;
+  min_amount: string;
+  delivery_fee: string;
+  shape_type: number;
+  shape_data: string;
+  is_active: number;
+  created_at: string;
+  updated_at: string;
+}
+export interface IPaymentMethodSetting {
+  id: number;
+  location_id: number;
+  service_id: number;
+  payment_method_id: number;
+  status: number;
+  created_at: string;
+  updated_at: string;
+  payment_method: {
+    id: number;
+    name: string;
+    alias: string;
+    order: number;
+    is_active: number;
+    created_at: string;
+    updated_at: string;
+  };
+}
+export interface IOrderingMethod {
+  id: number;
+  service_id: number;
+  name: string;
+  alias: string;
+  order: number;
+  is_active: 1;
+  created_at: string;
+  updated_at: string;
+}
+export interface IOpeningHour {
+  id: number;
+  location_id: number;
+  service_id: number;
+  days: string;
+  start_time: string;
+  end_time: string;
+  created_at: string;
+  updated_at: string;
+}
+export interface IDeliveryMethod {
+  id: number;
+  location_id: number;
+  service_id: number;
+  status: number;
+  created_at: string;
+  updated_at: string;
+  service: {
+    id: number;
+    name: string;
+    alias: string;
+    is_taxable: number;
+    is_schedule: number;
+    order: number;
+    is_active: number;
+    created_at: string;
+    updated_at: string;
+    service_settings: {
+      (key: string): {
+        id: number;
+        location_id: number;
+        pre_order: number;
+        min_guest: number;
+        max_guest: number;
+        min_time_advance: number;
+        max_time_advance: number;
+        hold_table: number;
+        created_at: string;
+        updated_at: string;
+      };
+      delivery_zones?: IDeliveryZone[];
+    };
+    payment_method_settings: IPaymentMethodSetting[];
+    ordering_methods: IOrderingMethod[];
+    opening_hours: IOpeningHour[];
+  };
+}
+export interface IContact {
+  id: number;
+  location_id: number;
+  user_id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  created_at: string;
+  updated_at: string;
+}
+export interface IUser {
+  token?: string;
+  user?: UserData;
+  isLoggedIn?: boolean;
+  contacts?: IContact[];
+  deliveryMethods?: IDeliveryMethod[];
+}

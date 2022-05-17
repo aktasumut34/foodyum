@@ -2,16 +2,11 @@ import { RemovableRef, useStorage } from "@vueuse/core";
 import axios from "axios";
 import { defineStore } from "pinia";
 import { useLocation } from "./location";
-type UserData = Record<string, any> | null;
 const api = axios.create({
   baseURL: "https://foodyum-dev.fuelm.net/",
 });
-interface IUser {
-  token?: string;
-  user?: UserData;
-  isLoggedIn?: boolean;
-  contacts?: any[];
-}
+
+import { IUser } from "../types/app";
 
 export const useUser = defineStore("user", {
   state: (): {
@@ -112,6 +107,7 @@ export const useUser = defineStore("user", {
     },
     async me() {
       try {
+        const locationStore = useLocation();
         const response = await api.get("/api/core/user/me", {
           headers: {
             Accept: "application/json",
@@ -121,6 +117,7 @@ export const useUser = defineStore("user", {
         if (response.status === 200) {
           const { data } = response;
           this.user.user = data.user;
+          await locationStore.getConfig();
         }
       } catch (e) {
         console.error("FOODYUM ERROR: " + e);

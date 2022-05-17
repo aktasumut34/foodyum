@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { AxiosInstance } from "axios";
-import { inject, ref, onMounted, computed } from "vue";
+import { inject, ref, onMounted, computed, watch } from "vue";
 import MenuCategory from "./components/MenuCategory.vue";
 import ProductModal from "./components/ProductModal.vue";
 import OrderModal from "./components/OrderModal.vue";
@@ -24,8 +24,9 @@ import Header from "./components/Header.vue";
 import { ProductCategory, LocationInfo, TenantInfo } from "./types/app";
 import { useLocation } from "./store/location";
 import { useCategories } from "./store/categories";
-
+import { useUser } from "./store/user";
 const isLoading = ref(true);
+const userStore = useUser();
 const locationStore = useLocation();
 const categoriesStore = useCategories();
 const locationInfo = computed(() => locationStore.location);
@@ -46,9 +47,10 @@ onMounted(async () => {
     };
   }>("product-menu");
   categoriesStore.setCategories(menuResponse.data.data.product_categories);
-
+  if (user.value.token) await locationStore.getConfig();
   isLoading.value = false;
 });
+const user = computed(() => userStore.user);
 </script>
 
 <style scoped></style>
