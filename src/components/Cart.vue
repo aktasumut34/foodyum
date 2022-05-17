@@ -128,13 +128,15 @@
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { useCart } from "../store/cart";
+import { useOrderModal } from "../store/orderModal";
 import { useUser } from "../store/user";
 const cartStore = useCart();
 const userStore = useUser();
-
+const orderModalStore = useOrderModal();
 const orderNow = () => {
   if(userStore.user.isLoggedIn) {
-    cartStore.orderNow();
+    
+    orderModalStore.open();console.log(1);
   } else {
     userStore.loginButton.el.click();
   }

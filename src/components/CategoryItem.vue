@@ -22,8 +22,8 @@
 
 <script setup lang="ts">
 import { Product, ProductCategory } from "../types/app";
-import { useModal } from "../store/modal";
-const modal = useModal();
+import { useProductModal } from "../store/productModal";
+const modal = useProductModal();
 const props = defineProps<{
   item: Product;
   category: ProductCategory;

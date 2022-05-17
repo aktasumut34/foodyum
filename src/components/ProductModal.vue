@@ -219,9 +219,9 @@ import { watch, ref, computed, Ref } from "vue";
 // @ts-ignore
 import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import { useCart } from "../store/cart";
-import { useModal } from "../store/modal";
+import { useProductModal } from "../store/productModal";
 import { ProductAddon, ProductChoice, ProductAddonChoice } from "../types/app";
-const modal = useModal();
+const modal = useProductModal();
 const cart = useCart();
 const selected = ref(null);
 const selectable: Ref<ProductAddon[]> = ref([]);

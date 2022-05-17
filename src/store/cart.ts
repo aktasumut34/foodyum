@@ -2,9 +2,6 @@ import { RemovableRef, useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { Product, ProductAddon, ProductChoice } from "../types/app";
 import _ from "lodash";
-import axios from "axios";
-import { useUser } from "./user";
-import { useLocation } from "./location";
 
 interface ICartItem extends Product {
   quantity?: number;
@@ -21,10 +18,6 @@ interface ICartToSend {
   product_choice_ids: number[];
   special_instruction: string;
 }
-
-const api = axios.create({
-  baseURL: "https://foodyum-dev.fuelm.net/",
-});
 
 export const useCart = defineStore("cart", {
   state: (): {
@@ -136,33 +129,6 @@ export const useCart = defineStore("cart", {
     clear(): void {
       this.cart = [];
       this.cartToSend = [];
-    },
-    async orderNow() {
-      try {
-        const userStore = useUser();
-        const locationStore = useLocation();
-        const cartToSend = this.cartToSend;
-        const res = await api.post(
-          "/api/user/ordering-carts",
-          {
-            ordering_cart_products: cartToSend,
-            location_id: locationStore.location.id,
-          },
-          {
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${userStore.user.token}`,
-            },
-          }
-        );
-        if (res.status === 200) {
-          this.clear();
-          this.cartToSend = [];
-          this.cart = [];
-        }
-      } catch (e) {
-        console.error("FOODYUM ERROR: ", e);
-      }
     },
   },
 });

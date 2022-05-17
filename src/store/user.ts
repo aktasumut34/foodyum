@@ -10,6 +10,7 @@ interface IUser {
   token?: string;
   user?: UserData;
   isLoggedIn?: boolean;
+  contacts?: any[];
 }
 
 export const useUser = defineStore("user", {
@@ -68,12 +69,12 @@ export const useUser = defineStore("user", {
       last_name: string;
     }) {
       try {
-        const location = useLocation();
+        const locationStore = useLocation();
         const response = await api.post("/api/core/user/auth/register", {
           email,
           password,
           password_confirmation,
-          tenant_id: location.tenant.id,
+          tenant_id: locationStore.tenant.id,
           first_name,
           last_name,
         });
@@ -95,26 +96,54 @@ export const useUser = defineStore("user", {
       }
     },
     async logout() {
-      const response = await api.get("/api/core/user/logout", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${this.user.token}`,
-        },
-      });
-      if (response.status === 200 && response.data.result === "success") {
-        this.user = {};
+      try {
+        const response = await api.get("/api/core/user/logout", {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+        if (response.status === 200 && response.data.result === "success") {
+          this.user = {};
+        }
+      } catch (e) {
+        console.error("FOODYUM ERROR: " + e);
       }
     },
     async me() {
-      const response = await api.get("/api/core/user/me", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${this.user.token}`,
-        },
-      });
-      if (response.status === 200) {
-        const { data } = response;
-        this.user.user = data.user;
+      try {
+        const response = await api.get("/api/core/user/me", {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${this.user.token}`,
+          },
+        });
+        if (response.status === 200) {
+          const { data } = response;
+          this.user.user = data.user;
+        }
+      } catch (e) {
+        console.error("FOODYUM ERROR: " + e);
+      }
+    },
+    async getContacts() {
+      try {
+        const locationStore = useLocation();
+        const response = await api.get("/api/user/user-contacts", {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${this.user.token}`,
+          },
+          params: {
+            location_id: locationStore.location.id,
+          },
+        });
+        if (response.status === 200) {
+          const { data } = response;
+          this.user.contacts = data.data;
+        }
+      } catch (e) {
+        console.error("FOODYUM ERROR: " + e);
       }
     },
   },
