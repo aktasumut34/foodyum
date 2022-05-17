@@ -27,7 +27,7 @@
             leave-to="fy-opacity-0 fy-scale-95"
           >
             <DialogPanel
-              class="fy-w-full fy-max-w-2xl fy-transform fy-overflow-hidden fy-rounded-2xl fy-bg-white fy-p-6 fy-text-left fy-align-middle fy-shadow-xl fy-transition-all fy-flex fy-flex-col fy-gap-4"
+              class="fy-w-full fy-max-w-2xl fy-transform fy-overflow-hidden fy-rounded-2xl fy-bg-white fy-p-6 fy-text-left fy-align-middle fy-shadow-xl fy-transition-all fy-flex fy-flex-col fy-gap-6"
             >
               <DialogTitle
                 as="h3"
@@ -48,7 +48,7 @@
                         Add New
                       </button></RadioGroupLabel
                     >
-                    <div class="fy-grid fy-grid-cols-3 fy-space-x-4 fy-mt-2">
+                    <div class="fy-grid fy-grid-cols-3 fy-gap-4 fy-mt-2">
                       <RadioGroupOption
                         as="template"
                         v-for="(contact, $index) in userStore.user.contacts"
@@ -210,6 +210,95 @@
                   </RadioGroup>
                 </div>
               </div>
+              <div
+                v-if="
+                  locationStore.config &&
+                  selectedDeliveryMethodDetails &&
+                  selectedDeliveryMethodDetails.service.alias === 'delivery'
+                "
+                class="fy-flex fy-flex-col fy-gap-2"
+              >
+                <div
+                  v-if="locationStore.config && locationStore.config.length > 0"
+                >
+                  <RadioGroup v-model="selectedDeliveryAddress">
+                    <RadioGroupLabel
+                      class="fy-text-slate-700 fy-text-lg fy-flex fy-items-center fy-gap-2"
+                      ><span>Delivery Address</span>
+                      <button
+                        class="fy-text-xs fy-text-white fy-rounded-lg fy-py-1 fy-px-2 fy-bg-green-400"
+                        @click="addDeliveryAddress"
+                      >
+                        Add New
+                      </button></RadioGroupLabel
+                    >
+                    <div class="fy-grid fy-grid-cols-3 fy-gap-4 fy-mt-2">
+                      <RadioGroupOption
+                        as="template"
+                        v-for="(address, $index) in userStore.user
+                          .deliveryAddresses"
+                        :key="address.id"
+                        :value="address.id"
+                        v-slot="{ checked }"
+                      >
+                        <div
+                          :class="[
+                            checked
+                              ? 'fy-bg-green-700 fy-bg-opacity-75 fy-text-white '
+                              : 'fy-bg-slate-100 ',
+                          ]"
+                          class="fy-relative fy-flex fy-cursor-pointer fy-rounded-lg fy-px-5 fy-py-4 fy-shadow-md focus:fy-outline-none"
+                        >
+                          <div
+                            class="fy-flex fy-w-full fy-items-center fy-justify-between"
+                          >
+                            <div class="fy-flex fy-items-center">
+                              <div class="fy-text-sm">
+                                <RadioGroupLabel
+                                  as="p"
+                                  :class="
+                                    checked
+                                      ? 'fy-text-white'
+                                      : 'fy-text-gray-900'
+                                  "
+                                  class="fy-font-medium"
+                                >
+                                  {{ address.address_title }}
+                                </RadioGroupLabel>
+                              </div>
+                            </div>
+                            <div
+                              v-show="checked"
+                              class="fy-shrink-0 fy-text-white"
+                            >
+                              <svg
+                                class="fy-h-6 fy-w-6"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                              >
+                                <circle
+                                  cx="12"
+                                  cy="12"
+                                  r="12"
+                                  fill="#fff"
+                                  fill-opacity="0.2"
+                                />
+                                <path
+                                  d="M7 13l3 3 7-7"
+                                  stroke="#fff"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </RadioGroupOption>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
               <div>
                 <button
                   type="button"
@@ -227,6 +316,7 @@
         </div>
       </div>
       <AddContact v-if="orderModalStore.addContactModal" />
+      <AddDeliveryAddress v-if="orderModalStore.addDeliveryAddressModal" />
     </Dialog>
   </TransitionRoot>
 </template>
@@ -243,24 +333,32 @@ import {
   RadioGroupDescription,
   RadioGroupOption,
 } from "@headlessui/vue";
-import { ref, watch, computed } from "vue";
+import { ref, computed } from "vue";
 import { useOrderModal } from "../store/orderModal";
 import { useUser } from "../store/user";
 import { useLocation } from "../store/location";
 import AddContact from "./AddContact.vue";
+import AddDeliveryAddress from "./AddDeliveryAddress.vue";
 const orderModalStore = useOrderModal();
 const userStore = useUser();
 const locationStore = useLocation();
 const selectedContactInfo = ref(0);
 const selectedDeliveryMethod = ref(0);
-const isOpen = computed(() => orderModalStore.isOpen);
-watch(isOpen, async () => {
-  await userStore.getContacts();
+const selectedDeliveryAddress = ref(0);
+const selectedDeliveryMethodDetails = computed(() => {
+  const deliveryMethod = locationStore.config.find(
+    (method) => method.id === selectedDeliveryMethod.value
+  );
+  return deliveryMethod;
 });
+const isOpen = computed(() => orderModalStore.isOpen);
 const completeOrder = () => {
   orderModalStore.orderNow();
 };
 const addContactInfo = () => {
   orderModalStore.openContactModal();
+};
+const addDeliveryAddress = () => {
+  orderModalStore.openDeliveryAddressModal();
 };
 </script>

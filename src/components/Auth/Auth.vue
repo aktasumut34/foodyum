@@ -7,7 +7,7 @@
 import Login from "./Login.vue";
 import Register from "./Register.vue";
 import { useUser } from "../../store/user";
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 const userStore = useUser();
 const login = computed(() => userStore.pageLogin);
 const change = (val: boolean) => {

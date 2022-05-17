@@ -3,12 +3,15 @@ import { useLocation } from "./location";
 import { useUser } from "./user";
 import axios from "axios";
 import { useCart } from "./cart";
+import { add } from "lodash";
 
 interface IOrderModalState {
   isOpen: boolean;
   isLoading: boolean;
   isLoadingAddContact: boolean;
   addContactModal: boolean;
+  isLoadingAddDeliveryAddress: boolean;
+  addDeliveryAddressModal: boolean;
 }
 const api = axios.create({
   baseURL: "https://foodyum-dev.fuelm.net/",
@@ -20,6 +23,8 @@ export const useOrderModal = defineStore("orderModal", {
       isLoading: false,
       isLoadingAddContact: false,
       addContactModal: false,
+      isLoadingAddDeliveryAddress: false,
+      addDeliveryAddressModal: false,
     };
   },
   actions: {
@@ -34,6 +39,12 @@ export const useOrderModal = defineStore("orderModal", {
     },
     closeContactModal(): void {
       this.addContactModal = false;
+    },
+    openDeliveryAddressModal(): void {
+      this.addDeliveryAddressModal = true;
+    },
+    closeDeliveryAddressModal(): void {
+      this.addDeliveryAddressModal = false;
     },
     async addContact({
       firstname,
@@ -70,6 +81,47 @@ export const useOrderModal = defineStore("orderModal", {
           await userStore.getContacts();
           this.isLoadingAddContact = false;
           this.closeContactModal();
+        }
+      } catch (e) {
+        console.error("FOODYUM ERROR: ", e);
+      }
+    },
+    async addDeliveryAddress({
+      address_title,
+      city_area,
+      street,
+      zipcode,
+    }: {
+      address_title: string;
+      city_area: string;
+      street: string;
+      zipcode: string;
+    }) {
+      try {
+        this.isLoadingAddDeliveryAddress = true;
+        const userStore = useUser();
+        const locationStore = useLocation();
+        const res = await api.post(
+          "/api/user/user-delivery-addresses",
+          {
+            address_title,
+            city_area,
+            street,
+            zipcode,
+            location_id: locationStore.location.id,
+            is_selected: 0,
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${userStore.user.token}`,
+            },
+          }
+        );
+        if (res.status === 200) {
+          await userStore.getDeliveryAddresses();
+          this.isLoadingAddDeliveryAddress = false;
+          this.closeDeliveryAddressModal();
         }
       } catch (e) {
         console.error("FOODYUM ERROR: ", e);

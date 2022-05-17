@@ -130,6 +130,7 @@ export type TenantInfo = {
 };
 
 export type UserData = Record<string, any> | null;
+
 export interface IDeliveryZone {
   id: number;
   location_id: number;
@@ -228,10 +229,34 @@ export interface IContact {
   created_at: string;
   updated_at: string;
 }
+
+export interface IDeliveryAddress {
+  id: number;
+  location_id: number;
+  user_id: number;
+  ordering_cart_id: number;
+  address_title: string;
+  is_selected: number;
+  city_area: string;
+  street: string;
+  zipcode: string;
+  neighborhood: string;
+  block: string;
+  intercom: string;
+  floor: string;
+  apartment: string;
+  where_to_park: string;
+  latitude: string;
+  longitude: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface IUser {
   token?: string;
   user?: UserData;
   isLoggedIn?: boolean;
   contacts?: IContact[];
   deliveryMethods?: IDeliveryMethod[];
+  deliveryAddresses?: IDeliveryAddress[];
 }

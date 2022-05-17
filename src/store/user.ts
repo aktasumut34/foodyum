@@ -117,7 +117,9 @@ export const useUser = defineStore("user", {
         if (response.status === 200) {
           const { data } = response;
           this.user.user = data.user;
+          await this.getContacts();
           await locationStore.getConfig();
+          await this.getDeliveryAddresses();
         }
       } catch (e) {
         console.error("FOODYUM ERROR: " + e);
@@ -138,6 +140,26 @@ export const useUser = defineStore("user", {
         if (response.status === 200) {
           const { data } = response;
           this.user.contacts = data.data;
+        }
+      } catch (e) {
+        console.error("FOODYUM ERROR: " + e);
+      }
+    },
+    async getDeliveryAddresses() {
+      try {
+        const locationStore = useLocation();
+        const response = await api.get("/api/user/user-delivery-addresses", {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${this.user.token}`,
+          },
+          params: {
+            location_id: locationStore.location.id,
+          },
+        });
+        if (response.status === 200) {
+          const { data } = response;
+          this.user.deliveryAddresses = data.data;
         }
       } catch (e) {
         console.error("FOODYUM ERROR: " + e);

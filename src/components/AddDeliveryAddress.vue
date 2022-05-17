@@ -1,5 +1,9 @@
 <template>
-  <TransitionRoot appear :show="orderModalStore.addContactModal" as="template">
+  <TransitionRoot
+    appear
+    :show="orderModalStore.addDeliveryAddressModal"
+    as="template"
+  >
     <Dialog as="div" class="fy-relative fy-z-10">
       <TransitionChild
         as="template"
@@ -36,74 +40,76 @@
                 Add Contact Information
               </DialogTitle>
               <form
-                @submit.prevent="addContact"
+                @submit.prevent="addDeliveryAddress"
                 class="fy-flex fy-flex-col fy-gap-2"
               >
                 <div
                   class="fy-grid fy-grid-cols-1 fy-gap-4 fy-w-full lg:fy-grid-cols-2"
                 >
                   <div class="fy-flex fy-flex-col fy-gap-1 fy-w-full">
-                    <label class="fy-text-slate-600 fy-text-md" for="firstname"
-                      >First Name</label
+                    <label
+                      class="fy-text-slate-600 fy-text-md"
+                      for="address_title"
+                      >Address Title</label
                     >
                     <input
                       class="fy-w-full fy-text-sm fy-text-slate-600 fy-px-4 fy-py-2 fy-border fy-border-slate-700 focus:fy-border-transparent focus:fy-outline-none focus:fy-ring-sky-600 fy-rounded-md fy-ring-2 fy-ring-transparent"
                       :class="{
-                        '!fy-border-red-500 !fy-border-2': errors.firstname,
+                        '!fy-border-red-500 !fy-border-2': errors.address_title,
                       }"
-                      placeholder="First Name"
+                      placeholder="Address Title"
                       type="text"
-                      v-model="firstname"
-                      name="firstname"
+                      v-model="address_title"
+                      name="address_title"
                       autocomplete="off"
                     />
                   </div>
                   <div class="fy-flex fy-flex-col fy-gap-1 fy-w-full">
-                    <label class="fy-text-slate-600 fy-text-md" for="lastname"
-                      >Last Name</label
+                    <label class="fy-text-slate-600 fy-text-md" for="city_area"
+                      >City Area</label
                     >
                     <input
                       class="fy-w-full fy-text-sm fy-text-slate-600 fy-px-4 fy-py-2 fy-border fy-border-slate-700 focus:fy-border-transparent focus:fy-outline-none focus:fy-ring-sky-600 fy-rounded-md fy-ring-2 fy-ring-transparent"
                       :class="{
-                        '!fy-border-red-500 !fy-border-2': errors.lastname,
+                        '!fy-border-red-500 !fy-border-2': errors.city_area,
                       }"
-                      placeholder="Last Name"
+                      placeholder="City Area"
                       type="text"
-                      v-model="lastname"
-                      name="lastname"
+                      v-model="city_area"
+                      name="city_area"
                       autocomplete="off"
                     />
                   </div>
                 </div>
                 <div class="fy-flex fy-flex-col fy-gap-1 fy-w-full">
-                  <label class="fy-text-slate-600 fy-text-md" for="email"
-                    >E-Mail</label
+                  <label class="fy-text-slate-600 fy-text-md" for="street"
+                    >Street</label
                   >
                   <input
                     class="fy-w-full fy-text-sm fy-text-slate-600 fy-px-4 fy-py-2 fy-border fy-border-slate-700 focus:fy-border-transparent focus:fy-outline-none focus:fy-ring-sky-600 fy-rounded-md fy-ring-2 fy-ring-transparent"
                     :class="{
-                      '!fy-border-red-500 !fy-border-2': errors.email,
+                      '!fy-border-red-500 !fy-border-2': errors.street,
                     }"
-                    placeholder="E-Mail"
-                    type="email"
-                    v-model="email"
-                    name="email"
+                    placeholder="Street"
+                    type="text"
+                    v-model="street"
+                    name="street"
                     autocomplete="off"
                   />
                 </div>
                 <div class="fy-flex fy-flex-col fy-gap-1 fy-w-full">
-                  <label class="fy-text-slate-600 fy-text-md" for="phone"
-                    >Phone Number</label
+                  <label class="fy-text-slate-600 fy-text-md" for="zipcode"
+                    >Zip Code</label
                   >
                   <input
                     class="fy-w-full fy-text-sm fy-text-slate-600 fy-px-4 fy-py-2 fy-border fy-border-slate-700 focus:fy-border-transparent focus:fy-outline-none focus:fy-ring-sky-600 fy-rounded-md fy-ring-2 fy-ring-transparent"
                     :class="{
-                      '!fy-border-red-500 !fy-border-2': errors.phone,
+                      '!fy-border-red-500 !fy-border-2': errors.zipcode,
                     }"
-                    placeholder="Phone number"
+                    placeholder="Zip Code"
                     type="text"
-                    v-model="phone"
-                    name="phone"
+                    v-model="zipcode"
+                    name="zipcode"
                     autocomplete="off"
                   />
                 </div>
@@ -112,16 +118,17 @@
                   <button
                     type="button"
                     class="fy-inline-flex fy-justify-center fy-rounded-md fy-border fy-border-transparent fy-bg-green-100 fy-px-4 fy-py-2 fy-text-sm fy-font-medium fy-text-green-900 hover:fy-bg-green-200 active:fy-bg-green-300 focus:fy-outline-none fy-transition-colors"
+                    @click="addDeliveryAddress()"
                   >
-                    <span v-if="orderModalStore.isLoadingAddContact">
+                    <span v-if="orderModalStore.isLoadingAddDeliveryAddress">
                       <fa icon="spinner" spin></fa
                     ></span>
-                    <span v-else> Add Contact </span>
+                    <span v-else> Add Delivery Address </span>
                   </button>
                   <button
                     type="button"
                     class="fy-inline-flex fy-justify-center fy-rounded-md fy-border fy-border-transparent fy-bg-gray-200 fy-px-4 fy-py-2 fy-text-sm fy-font-medium fy-text-gray-900 hover:fy-bg-gray-300 active:fy-bg-gray-400 focus:fy-outline-none fy-transition-colors"
-                    @click="closeAddContact()"
+                    @click="closeDeliveryAddress()"
                   >
                     Cancel
                   </button>
@@ -146,25 +153,25 @@ import {
 import { useOrderModal } from "../store/orderModal";
 import { ref, reactive } from "vue";
 const orderModalStore = useOrderModal();
-const email = ref("");
-const phone = ref("");
-const firstname = ref("");
-const lastname = ref("");
+const address_title = ref("");
+const city_area = ref("");
+const zipcode = ref("");
+const street = ref("");
 const errors = reactive({
-  email: false,
-  phone: false,
-  firstname: false,
-  lastname: false,
+  address_title: false,
+  city_area: false,
+  zipcode: false,
+  street: false,
 });
-const addContact = () => {
-  orderModalStore.addContact({
-    email: email.value,
-    phone: phone.value,
-    firstname: firstname.value,
-    lastname: lastname.value,
+const addDeliveryAddress = () => {
+  orderModalStore.addDeliveryAddress({
+    address_title: address_title.value,
+    city_area: city_area.value,
+    zipcode: zipcode.value,
+    street: street.value,
   });
 };
-const closeAddContact = () => {
-  orderModalStore.closeContactModal();
+const closeDeliveryAddress = () => {
+  orderModalStore.closeDeliveryAddressModal();
 };
 </script>
