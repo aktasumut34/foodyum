@@ -102,9 +102,11 @@ export const useCart = defineStore("cart", {
           product_choice_ids: choice_ids,
           special_instruction: "Normal",
         };
-        const cur = this.cartToSend.find((i: ICartToSend) => i === final);
+        const cur = this.cartToSend.find((i: ICartToSend) =>
+          _.isEqual({ ...i, quantity: final.quantity }, final)
+        );
         if (cur) {
-          cur.quantity++;
+          cur.quantity += final.quantity;
           const currentItem = this.cart.find((i: ICartItem) => {
             return (
               i.id === item.id &&
@@ -112,7 +114,7 @@ export const useCart = defineStore("cart", {
               i.type === type
             );
           });
-          currentItem.quantity++;
+          currentItem.quantity += final.quantity;
         } else {
           const finalIndex = this.cartToSend.push(final);
           this.cart.push({
@@ -159,7 +161,7 @@ export const useCart = defineStore("cart", {
           this.cart = [];
         }
       } catch (e) {
-        console.log(e);
+        console.error("FOODYUM ERROR: ", e);
       }
     },
   },

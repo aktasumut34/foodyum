@@ -122,7 +122,7 @@
                     </div>
                   </RadioGroup>
                 </div>
-                <div class="fy-flex fy-flex-col">
+                <div v-if="selectable.length" class="fy-flex fy-flex-col">
                   <span class="fy-text-slate-700 fy-text-lg"
                     >Product Addons</span
                   >

@@ -18,6 +18,7 @@ export const useUser = defineStore("user", {
     authErrorLogin: string;
     authErrorRegister: string;
     pageLogin: boolean;
+    loginButton: { el: HTMLButtonElement; $el: HTMLButtonElement };
   } => {
     return {
       user: useStorage<IUser>("user", {}, localStorage, {
@@ -29,6 +30,7 @@ export const useUser = defineStore("user", {
       authErrorLogin: "",
       authErrorRegister: "",
       pageLogin: true,
+      loginButton: null,
     };
   },
   actions: {

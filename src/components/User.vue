@@ -4,6 +4,7 @@
       <PopoverButton
         class="fy-relative fy-p-3 fy-rounded-md fy-transition-colors fy-cursor-pointer fy-group"
         :class="open ? 'fy-bg-slate-100' : ''"
+        ref="loginButton"
       >
         <span class="text-2xl">{{ name }}</span>
       </PopoverButton>
@@ -31,11 +32,16 @@ import { useUser } from "../store/user";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import Auth from "./Auth/Auth.vue";
 import Details from "./Auth/Details.vue";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 const userStore = useUser();
 const name = computed(() => {
   return userStore.user.isLoggedIn && userStore.user.user
     ? userStore.user.user.first_name + " " + userStore.user.user.last_name
     : "Login / Register";
+});
+
+const loginButton = ref(null);
+onMounted(() => {
+  userStore.loginButton = loginButton.value;
 });
 </script>

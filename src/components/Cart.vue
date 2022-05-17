@@ -57,7 +57,7 @@
                 </p>
                 <p v-if="item.product_choices && item.product_choices.length">
                   <div v-for="c in item.product_choices">
-                  <div v-if="c.choice.filter((c) => c.is_selected).map((x) => x.name).length > 0">
+                  <div v-if="c.choice.length > 0">
                     {{ c.addon.name }}: {{
                       c.choice.map((x) => x.name).join(', ')
                     }}
@@ -107,7 +107,6 @@
             </div>
             <div class="fy-flex fy-gap-2">
               <button
-                v-if="userStore.user.isLoggedIn"
                 @click="orderNow"
                 class="fy-bg-green-500 fy-text-white fy-rounded-md fy-px-4 fy-py-2 fy-duration-150 hover:fy-bg-green-700 active:fy-bg-green-800 fy-transition-colors"
               >
@@ -132,8 +131,12 @@ import { useCart } from "../store/cart";
 import { useUser } from "../store/user";
 const cartStore = useCart();
 const userStore = useUser();
+
 const orderNow = () => {
-  console.log(1)
-  cartStore.orderNow();
+  if(userStore.user.isLoggedIn) {
+    cartStore.orderNow();
+  } else {
+    userStore.loginButton.el.click();
+  }
 };
 </script>
