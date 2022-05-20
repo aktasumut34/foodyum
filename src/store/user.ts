@@ -2,6 +2,8 @@ import { RemovableRef, useStorage } from "@vueuse/core";
 import axios from "axios";
 import { defineStore } from "pinia";
 import { useLocation } from "./location";
+// @ts-ignore
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 const api = axios.create({
   baseURL: "https://foodyum-dev.fuelm.net/",
 });
@@ -43,7 +45,7 @@ export const useUser = defineStore("user", {
             user: null,
             isLoggedIn: true,
           };
-          this.me();
+          await this.me();
           return true;
         }
       } catch (e) {
@@ -82,7 +84,7 @@ export const useUser = defineStore("user", {
               isLoggedIn: true,
             };
           }
-          this.me();
+          await this.me();
           return true;
         }
       } catch (e) {
@@ -102,7 +104,11 @@ export const useUser = defineStore("user", {
           this.user = {};
         }
       } catch (e) {
-        console.error("FOODYUM ERROR: " + e);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong, please try again later",
+          icon: "error",
+        });
       }
     },
     async me() {
@@ -122,7 +128,11 @@ export const useUser = defineStore("user", {
           await this.getDeliveryAddresses();
         }
       } catch (e) {
-        console.error("FOODYUM ERROR: " + e);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong, please try again later",
+          icon: "error",
+        });
       }
     },
     async getContacts() {
@@ -142,7 +152,11 @@ export const useUser = defineStore("user", {
           this.user.contacts = data.data;
         }
       } catch (e) {
-        console.error("FOODYUM ERROR: " + e);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong, please try again later",
+          icon: "error",
+        });
       }
     },
     async getDeliveryAddresses() {
@@ -162,7 +176,11 @@ export const useUser = defineStore("user", {
           this.user.deliveryAddresses = data.data;
         }
       } catch (e) {
-        console.error("FOODYUM ERROR: " + e);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong, please try again later",
+          icon: "error",
+        });
       }
     },
   },

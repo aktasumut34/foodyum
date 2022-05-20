@@ -36,7 +36,7 @@
                 Confirm Order
               </DialogTitle>
               <div class="fy-flex fy-flex-col fy-gap-2">
-                <div v-if="userStore.user.contacts.length > 0">
+                <div v-if="userStore.user">
                   <RadioGroup v-model="selectedContactInfo">
                     <RadioGroupLabel
                       class="fy-text-slate-700 fy-text-lg fy-flex fy-items-center fy-gap-2"
@@ -48,7 +48,10 @@
                         Add New
                       </button></RadioGroupLabel
                     >
-                    <div class="fy-grid fy-grid-cols-3 fy-gap-4 fy-mt-2">
+                    <div
+                      class="fy-grid fy-grid-cols-3 fy-gap-4 fy-mt-2"
+                      v-if="userStore.user.contacts.length > 0"
+                    >
                       <RadioGroupOption
                         as="template"
                         v-for="(contact, $index) in userStore.user.contacts"
@@ -107,30 +110,14 @@
                               v-show="checked"
                               class="fy-shrink-0 fy-text-white"
                             >
-                              <svg
-                                class="fy-h-6 fy-w-6"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                              >
-                                <circle
-                                  cx="12"
-                                  cy="12"
-                                  r="12"
-                                  fill="#fff"
-                                  fill-opacity="0.2"
-                                />
-                                <path
-                                  d="M7 13l3 3 7-7"
-                                  stroke="#fff"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                              </svg>
+                              <CheckCircle class="fy-h-6 fy-w-6" />
                             </div>
                           </div>
                         </div>
                       </RadioGroupOption>
+                    </div>
+                    <div class="fy-mt-2 fy-text-slate-600" v-else>
+                      You don't have any contact info. Please add one.
                     </div>
                   </RadioGroup>
                 </div>
@@ -182,26 +169,7 @@
                               v-show="checked"
                               class="fy-shrink-0 fy-text-white"
                             >
-                              <svg
-                                class="fy-h-6 fy-w-6"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                              >
-                                <circle
-                                  cx="12"
-                                  cy="12"
-                                  r="12"
-                                  fill="#fff"
-                                  fill-opacity="0.2"
-                                />
-                                <path
-                                  d="M7 13l3 3 7-7"
-                                  stroke="#fff"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                              </svg>
+                              <CheckCircle class="fy-h-6 fy-w-6" />
                             </div>
                           </div>
                         </div>
@@ -232,7 +200,10 @@
                         Add New
                       </button></RadioGroupLabel
                     >
-                    <div class="fy-grid fy-grid-cols-3 fy-gap-4 fy-mt-2">
+                    <div
+                      class="fy-grid fy-grid-cols-3 fy-gap-4 fy-mt-2"
+                      v-if="userStore.user.deliveryAddresses.length > 0"
+                    >
                       <RadioGroupOption
                         as="template"
                         v-for="(address, $index) in userStore.user
@@ -271,26 +242,73 @@
                               v-show="checked"
                               class="fy-shrink-0 fy-text-white"
                             >
-                              <svg
-                                class="fy-h-6 fy-w-6"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                              >
-                                <circle
-                                  cx="12"
-                                  cy="12"
-                                  r="12"
-                                  fill="#fff"
-                                  fill-opacity="0.2"
-                                />
-                                <path
-                                  d="M7 13l3 3 7-7"
-                                  stroke="#fff"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                              </svg>
+                              <CheckCircle class="fy-h-6 fy-w-6" />
+                            </div>
+                          </div>
+                        </div>
+                      </RadioGroupOption>
+                    </div>
+
+                    <div class="fy-mt-2 fy-text-slate-600" v-else>
+                      You don't have any delivery address. Please add one.
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <div
+                v-if="locationStore.config && timeChoices.length > 0"
+                class="fy-flex fy-flex-col fy-gap-2"
+              >
+                <div
+                  v-if="locationStore.config && locationStore.config.length > 0"
+                >
+                  <RadioGroup v-model="selectedTimeChoice">
+                    <RadioGroupLabel
+                      class="fy-text-slate-700 fy-text-lg fy-flex fy-items-center fy-gap-2"
+                      ><span>Time Choice</span>
+                    </RadioGroupLabel>
+                    <div
+                      class="fy-grid fy-grid-cols-3 fy-gap-4 fy-mt-2"
+                      v-if="userStore.user.deliveryAddresses.length > 0"
+                    >
+                      <RadioGroupOption
+                        as="template"
+                        v-for="time in timeChoices"
+                        :key="time"
+                        :value="time"
+                        v-slot="{ checked }"
+                      >
+                        <div
+                          :class="[
+                            checked
+                              ? 'fy-bg-green-700 fy-bg-opacity-75 fy-text-white '
+                              : 'fy-bg-slate-100 ',
+                          ]"
+                          class="fy-relative fy-flex fy-cursor-pointer fy-rounded-lg fy-px-5 fy-py-4 fy-shadow-md focus:fy-outline-none"
+                        >
+                          <div
+                            class="fy-flex fy-w-full fy-items-center fy-justify-between"
+                          >
+                            <div class="fy-flex fy-items-center">
+                              <div class="fy-text-sm">
+                                <RadioGroupLabel
+                                  as="p"
+                                  :class="
+                                    checked
+                                      ? 'fy-text-white'
+                                      : 'fy-text-gray-900'
+                                  "
+                                  class="fy-font-medium"
+                                >
+                                  {{ time }}
+                                </RadioGroupLabel>
+                              </div>
+                            </div>
+                            <div
+                              v-show="checked"
+                              class="fy-shrink-0 fy-text-white"
+                            >
+                              <CheckCircle class="fy-h-6 fy-w-6" />
                             </div>
                           </div>
                         </div>
@@ -298,6 +316,31 @@
                     </div>
                   </RadioGroup>
                 </div>
+              </div>
+              <div
+                v-if="
+                  locationStore.config &&
+                  selectedDeliveryMethod &&
+                  selectedTimeChoice &&
+                  selectedTimeChoice === 'Later'
+                "
+                class="fy-flex fy-flex-col fy-gap-2"
+              >
+                <div
+                  class="fy-text-slate-700 fy-text-sm fy-flex fy-items-center fy-gap-2"
+                >
+                  <span>Please select delivery time.</span>
+                </div>
+                <Datepicker
+                  ref="datetimepicker"
+                  v-model="selectedDateTime"
+                  :format="formatDate"
+                  @cleared="datetimepickerResetDate"
+                  @update:modelValue="datetimepickerUpdateDate"
+                  :disabledDates="disabledDates"
+                  :disabledWeekDays="disabledWeekDays"
+                >
+                </Datepicker>
               </div>
               <div>
                 <button
@@ -333,6 +376,10 @@ import {
   RadioGroupDescription,
   RadioGroupOption,
 } from "@headlessui/vue";
+import Datepicker from "@vuepic/vue-datepicker";
+import CheckCircle from "./Icons/check-circle.svg";
+import dayjs from "dayjs";
+import "@vuepic/vue-datepicker/dist/main.css";
 import { ref, computed } from "vue";
 import { useOrderModal } from "../store/orderModal";
 import { useUser } from "../store/user";
@@ -342,14 +389,25 @@ import AddDeliveryAddress from "./AddDeliveryAddress.vue";
 const orderModalStore = useOrderModal();
 const userStore = useUser();
 const locationStore = useLocation();
-const selectedContactInfo = ref(0);
-const selectedDeliveryMethod = ref(0);
+const selectedContactInfo = ref(userStore.user.contacts?.[0].id || 0);
+const selectedDeliveryMethod = ref(locationStore.config?.[0].id || 0);
 const selectedDeliveryAddress = ref(0);
+const selectedTimeChoice = ref(null);
+const selectedDateTime = ref(dayjs().minute(0).add(2, "hour").toString());
+const datetimepicker = ref(null);
 const selectedDeliveryMethodDetails = computed(() => {
   const deliveryMethod = locationStore.config.find(
     (method) => method.id === selectedDeliveryMethod.value
   );
   return deliveryMethod;
+});
+const timeChoices = computed(() => {
+  if (locationStore.config && selectedDeliveryMethodDetails.value) {
+    if (selectedDeliveryMethodDetails.value.service.is_schedule)
+      return ["Now", "Later"];
+    else return ["Now"];
+  }
+  return [];
 });
 const isOpen = computed(() => orderModalStore.isOpen);
 const completeOrder = () => {
@@ -361,4 +419,114 @@ const addContactInfo = () => {
 const addDeliveryAddress = () => {
   orderModalStore.openDeliveryAddressModal();
 };
+const formatDate = (date: Date) => {
+  if (dayjs(date).format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD")) {
+    return "Today, " + dayjs(date).format("HH:mm");
+  } else if (
+    dayjs(date).format("YYYY-MM-DD") ===
+    dayjs().add(1, "day").format("YYYY-MM-DD")
+  ) {
+    return "Tomorrow, " + dayjs(date).format("HH:mm");
+  } else return dayjs(date).format("MMM DD, YYYY, HH:mm");
+};
+const datetimepickerResetDate = () => {
+  selectedDateTime.value = dayjs().minute(0).add(2, "hour").toString();
+};
+const datetimepickerUpdateDate = (date: Date) => {
+  if (dayjs(date) < dayjs().minute(0).add(2, "hour")) {
+    datetimepickerResetDate();
+  } else if (
+    selectedDeliveryMethodDetails.value &&
+    selectedDeliveryMethodDetails.value.service.opening_hours.length > 0
+  ) {
+    const openingHours =
+      selectedDeliveryMethodDetails.value.service.opening_hours;
+    const day = dayjs(date).format("dddd").toLowerCase();
+    const openingHour = openingHours.find((hour) =>
+      hour.days.split(",").includes(day)
+    );
+    if (openingHour) {
+      const startHour = parseInt(openingHour.start_time.split(":")?.[0]);
+      const endHour = parseInt(openingHour.end_time.split(":")?.[0]);
+      const startMinute = parseInt(openingHour.start_time.split(":")?.[1]);
+      const endMinute = parseInt(openingHour.end_time.split(":")?.[1]);
+      const selected = dayjs(date);
+      if (
+        !(
+          (selected.hour() > startHour ||
+            (selected.hour() === startHour &&
+              selected.minute() >= startMinute)) &&
+          (selected.hour() < endHour ||
+            (selected.hour() === endHour && selected.minute() < endMinute))
+        )
+      ) {
+        if (selected.hour() < startHour) {
+          selectedDateTime.value = dayjs(date)
+            .minute(startMinute)
+            .hour(startHour)
+            .toString();
+        } else {
+          selectedDateTime.value = dayjs(date)
+            .minute(endMinute)
+            .hour(endHour)
+            .toString();
+        }
+      }
+    }
+  }
+};
+const disabledDates = (date: Date) => {
+  if (dayjs(date).add(1, "day") < dayjs()) {
+    return true;
+  }
+  return false;
+};
+const dayNameToWeekDay = (dayName: string) => {
+  switch (dayName) {
+    case "monday":
+      return 1;
+    case "tuesday":
+      return 2;
+    case "wednesday":
+      return 3;
+    case "thursday":
+      return 4;
+    case "friday":
+      return 5;
+    case "saturday":
+      return 6;
+    case "sunday":
+      return 0;
+  }
+};
+const disabledWeekDays = computed(() => {
+  if (
+    selectedDeliveryMethodDetails.value &&
+    selectedDeliveryMethodDetails.value.service.is_schedule &&
+    selectedDeliveryMethodDetails.value.service.opening_hours.length > 0
+  ) {
+    const disabledDates = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ];
+    selectedDeliveryMethodDetails.value.service.opening_hours.forEach(
+      (item) => {
+        const days = item.days.split(",");
+        days.forEach((day) => {
+          if (disabledDates.indexOf(day) > -1) {
+            disabledDates.splice(disabledDates.indexOf(day), 1);
+            return;
+          }
+        });
+      }
+    );
+    return disabledDates.map((day) => dayNameToWeekDay(day));
+  }
+  return [];
+});
 </script>

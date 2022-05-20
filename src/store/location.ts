@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { IDeliveryMethod, LocationInfo, TenantInfo } from "../types/app";
 import axios from "axios";
 import { useUser } from "./user";
+// @ts-ignore
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 const api = axios.create({
   baseURL: "https://foodyum-dev.fuelm.net/",
 });
@@ -43,7 +45,11 @@ export const useLocation = defineStore("location", {
         });
         this.setConfig(data.data);
       } catch (e) {
-        console.log("FOODYUM ERROR: " + e);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong, please try again later",
+          icon: "error",
+        });
       }
     },
   },

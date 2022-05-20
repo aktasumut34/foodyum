@@ -95,26 +95,7 @@
                               v-show="checked"
                               class="fy-shrink-0 fy-text-white"
                             >
-                              <svg
-                                class="fy-h-6 fy-w-6"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                              >
-                                <circle
-                                  cx="12"
-                                  cy="12"
-                                  r="12"
-                                  fill="#fff"
-                                  fill-opacity="0.2"
-                                />
-                                <path
-                                  d="M7 13l3 3 7-7"
-                                  stroke="#fff"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                              </svg>
+                              <CheckCircle class="fy-h-6 fy-w-6" />
                             </div>
                           </div>
                         </div>
@@ -148,21 +129,7 @@
                               "
                               class="fy-h-5 fy-w-5 fy-flex fy-items-center fy-justify-center fy-border fy-border-green-700 focus:fy-outline-none fy-border-opacity-75"
                             >
-                              <svg
-                                v-if="choice.is_selected"
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="fy-h-4 fy-w-4 fy-text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M5 13l4 4L19 7"
-                                />
-                              </svg>
+                              <Check v-if="choice.is_selected" />
                             </Switch>
                             <SwitchLabel class="fy-flex fy-flex-col">
                               <span class="fy-text-slate-700 fy-text-xs">{{
@@ -221,6 +188,8 @@ import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import { useCart } from "../store/cart";
 import { useProductModal } from "../store/productModal";
 import { ProductAddon, ProductChoice, ProductAddonChoice } from "../types/app";
+import CheckCircle from "./Icons/check-circle.svg";
+import Check from "./Icons/check.svg";
 const modal = useProductModal();
 const cart = useCart();
 const selected = ref(null);

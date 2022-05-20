@@ -116,7 +116,7 @@
 
                 <div class="fy-flex fy-mt-2 fy-gap-2">
                   <button
-                    type="button"
+                    type="submit"
                     class="fy-inline-flex fy-justify-center fy-rounded-md fy-border fy-border-transparent fy-bg-green-100 fy-px-4 fy-py-2 fy-text-sm fy-font-medium fy-text-green-900 hover:fy-bg-green-200 active:fy-bg-green-300 focus:fy-outline-none fy-transition-colors"
                     @click="addDeliveryAddress()"
                   >

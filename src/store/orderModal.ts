@@ -3,7 +3,8 @@ import { useLocation } from "./location";
 import { useUser } from "./user";
 import axios from "axios";
 import { useCart } from "./cart";
-import { add } from "lodash";
+// @ts-ignore
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 
 interface IOrderModalState {
   isOpen: boolean;
@@ -83,7 +84,13 @@ export const useOrderModal = defineStore("orderModal", {
           this.closeContactModal();
         }
       } catch (e) {
-        console.error("FOODYUM ERROR: ", e);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong, please try again later",
+          icon: "error",
+        }).then(() => {
+          this.isLoadingAddContact = false;
+        });
       }
     },
     async addDeliveryAddress({
@@ -124,7 +131,13 @@ export const useOrderModal = defineStore("orderModal", {
           this.closeDeliveryAddressModal();
         }
       } catch (e) {
-        console.error("FOODYUM ERROR: ", e);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong, please try again later",
+          icon: "error",
+        }).then(() => {
+          this.isLoadingAddDeliveryAddress = false;
+        });
       }
     },
     async orderNow() {
@@ -155,7 +168,13 @@ export const useOrderModal = defineStore("orderModal", {
           this.close();
         }
       } catch (e) {
-        console.error("FOODYUM ERROR: ", e);
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong, please try again later",
+          icon: "error",
+        }).then(() => {
+          this.isLoading = false;
+        });
       }
     },
   },

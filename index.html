@@ -7,12 +7,21 @@
     <title>Vite App</title>
   </head>
   <body>
+    <button
+      class="fy-w-full fy-bg-red-500 fy-py-2 fy-mb-2 fy-text-white"
+      id="remover"
+    >
+      Remove App
+    </button>
     <div id="app"></div>
     <script type="module">
       import Foodyum from "./src/main";
       const app = new Foodyum("#app", {
         apiKey:
           "ZwImXPLEkinsrz8GVGPnBUjiDOSYJNtTljgA6e6xTokoztVmFsg7KAaSFsC80bXV",
+      });
+      document.querySelector("#remover").addEventListener("click", () => {
+        app.removeApp();
       });
     </script>
   </body>

@@ -11,11 +11,14 @@ import {
   faCartShopping,
   faTrash,
   faSpinner,
+  faUser,
+  faHistory,
+  faLifeRing,
 } from "@fortawesome/free-solid-svg-icons";
 import { createPinia } from "pinia";
 
 type FoodyumConfig = {
-  apiKey?: string;
+  apiKey: string;
 };
 
 export class Foodyum {
@@ -23,12 +26,18 @@ export class Foodyum {
   private $element: HTMLElement | null;
   private $apiKey = "";
   public $app = createApp(App);
-  constructor(el?: string, config?: FoodyumConfig) {
-    this.$el = el || this.$el;
-    this.$apiKey = config?.apiKey || this.$apiKey;
+  constructor(el: string, config: FoodyumConfig) {
+    this.$el = el;
+    this.$apiKey = config.apiKey;
     this.$element = document.querySelector(this.$el);
     if (this.$element) {
-      this.init();
+      if (this.$apiKey.length === 64) {
+        this.init();
+      } else {
+        throw new Error(
+          `FOODYUM: API key is invalid. Please check your config.`
+        );
+      }
     } else {
       throw new Error(
         `FOODYUM: Could not find element with selector ${this.$el}`
@@ -37,7 +46,15 @@ export class Foodyum {
   }
   private init(): void {
     if (!this.$element) return;
-    library.add(faAdd, faCartShopping, faTrash, faSpinner);
+    library.add(
+      faAdd,
+      faCartShopping,
+      faTrash,
+      faSpinner,
+      faUser,
+      faHistory,
+      faLifeRing
+    );
     const api = axios.create({
       baseURL: "https://foodyum-dev.fuelm.net/api/external-services",
       params: {
