@@ -451,16 +451,17 @@ const datetimepickerUpdateDate = (date: Date) => {
       const startMinute = parseInt(openingHour.start_time.split(":")?.[1]);
       const endMinute = parseInt(openingHour.end_time.split(":")?.[1]);
       const selected = dayjs(date);
+      const selectedHour = selected.hour();
+      const selectedMinute = selected.minute();
       if (
         !(
-          (selected.hour() > startHour ||
-            (selected.hour() === startHour &&
-              selected.minute() >= startMinute)) &&
-          (selected.hour() < endHour ||
-            (selected.hour() === endHour && selected.minute() < endMinute))
+          (selectedHour > startHour ||
+            (selectedHour === startHour && selectedMinute >= startMinute)) &&
+          (selectedHour < endHour ||
+            (selectedHour === endHour && selectedMinute < endMinute))
         )
       ) {
-        if (selected.hour() < startHour) {
+        if (selectedHour <= startHour) {
           selectedDateTime.value = dayjs(date)
             .minute(startMinute)
             .hour(startHour)
